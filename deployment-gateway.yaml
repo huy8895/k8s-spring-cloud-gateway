@@ -1,0 +1,39 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-pod
+spec:
+  selector:
+    matchLabels:
+      app: gateway-pod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gateway-pod
+    spec:
+      containers:
+      - name: gateway-pod
+        image: localhost:5001/gateway-pod
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits: {}
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+spec:
+  type: NodePort
+  selector:
+    app: gateway-pod
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 8080
+    nodePort: 31083
+
+

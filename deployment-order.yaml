@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-pod
+spec:
+  selector:
+    matchLabels:
+      app: order-pod
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: order-pod
+    spec:
+      containers:
+      - name: order-pod
+        image: order-pod
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+spec:
+  type: ClusterIP
+  selector:
+    app: order-pod
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 8080
+
+
