@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: product-service
+  name: demo-service
 spec:
   selector:
     matchLabels:
-      app: product-service
+      app: demo-service
   replicas: 2
   template:
     metadata:
       labels:
-        app: product-service
+        app: demo-service
     spec:
       containers:
-        - name: product-service
-          image: localhost:5001/product-service
+        - name: demo-service
+          image: huy8895/demo-cicd-github
           imagePullPolicy: IfNotPresent
           resources:
             limits:
@@ -23,17 +23,17 @@ spec:
           ports:
             - containerPort: 8080
           env: # Thêm mục này
-            - name: ENV_VAR
-              value: "value"
+            - name: SPRING_APPLICATION_NAME
+              value: "demo-service"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: product-service
+  name: demo-service
 spec:
   type: ClusterIP
   selector:
-    app: product-service
+    app: demo-service
   ports:
     - protocol: "TCP"
       port: 8080
