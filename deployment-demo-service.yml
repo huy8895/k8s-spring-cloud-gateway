@@ -16,10 +16,6 @@ spec:
         - name: demo-service
           image: huy8895/demo-cicd-github
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "200m"
           ports:
             - containerPort: 8080
           env: # Thêm mục này
